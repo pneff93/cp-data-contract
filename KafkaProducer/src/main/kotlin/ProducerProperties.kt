@@ -11,9 +11,9 @@ class ProducerProperties {
 //        settings.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer")
         settings.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroSerializer")
 
-        val api_key = "<Key>"
-        val api_secret = "<Secret>"
-        val broker = "<Broker Endpoint>"
+        val api_key = "key"
+        val api_secret = "secret"
+        val broker = "abc.confluent.cloud:9092"
 
 
         settings.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "$broker")
@@ -22,23 +22,9 @@ class ProducerProperties {
 
         settings.setProperty(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username='$api_key' password='$api_secret';")
 
-        settings.setProperty("schema.registry.url", "<SR Endpoint>")
+        settings.setProperty("schema.registry.url", "https://abc.aws.confluent.cloud")
         settings.setProperty("basic.auth.credentials.source", "USER_INFO")
-        settings.setProperty("schema.registry.basic.auth.user.info", "<Key>:<Secret>")
-
-        // Data Contracts
-        // Validation
-        settings.setProperty("rule.executors", "checkSensor")
-        settings.setProperty("rule.executors.checkSensor.class", "io.confluent.kafka.schemaregistry.rules.cel.CelExecutor")
-
-        // Action
-        settings.setProperty("rule.actions", "checkSensor")
-        settings.setProperty("rule.actions.checkSensor.class", "io.confluent.kafka.schemaregistry.rules.DlqAction")
-        settings.setProperty("rule.actions.checkSensor.param.topic", "dlq-topic")
-        settings.setProperty("rule.actions.checkSensor.param.bootstrap.servers", "$broker")
-        settings.setProperty("rule.actions.checkSensor.param.security.protocol","SASL_SSL")
-        settings.setProperty("rule.actions.checkSensor.param.sasl.mechanism","PLAIN")
-        settings.setProperty("rule.actions.checkSensor.param.sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username='$api_key' password='$api_secret';")
+        settings.setProperty("schema.registry.basic.auth.user.info", "key:secret")
 
         // Required since we manually create schemas
         settings.setProperty("use.latest.version", "true")
