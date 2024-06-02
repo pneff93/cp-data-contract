@@ -41,7 +41,7 @@ class KafkaProducer {
                     ) { m: RecordMetadata, e: Exception? ->
                         when (e) {
                             null -> logger.info("event produced to ${m.topic()}")
-                            else -> logger.error("oh no, error occurred")
+                            else -> logger.error("oh no, error occurred, $e")
                         }
                     }
                 } catch ( e: SerializationException){

@@ -1,4 +1,4 @@
-# CP Data Contract
+# CP Data Contract - Data Quality Rule
 
 [Data Contract Documentation](https://docs.confluent.io/platform/current/schema-registry/fundamentals/data-contracts.html)
 
@@ -29,6 +29,9 @@ curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" \
             "type": "CEL",
             "mode": "WRITE",
             "expr": "message.sensorId == \"sensor_1\"",
+            "params": {
+            "dlq.topic": "sensor-data-raw-dlq"
+            },
             "onFailure": "DLQ"
             }
             ]
@@ -46,7 +49,7 @@ curl -X GET http://localhost:8081/schemas | jq
 ```shell
  ./gradlew run  
 ```
-The producer produces events continuously. The first 5 records pass the rule and are sent to the sensor-data-raw topic. The second 5 records fail and are sent to the dlq-topic.
+The producer produces events continuously. The first 5 records pass the rule and are sent to the sensor-data-raw topic. The second 4 records fail and are sent to the dlq-topic.
 
 Check C3 under `localhost:9091`.
 However, C3 only displays the schema fields not the rules etc. (yet)

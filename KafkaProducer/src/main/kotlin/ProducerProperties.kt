@@ -12,17 +12,6 @@ class ProducerProperties {
         settings.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
         settings.setProperty("schema.registry.url", "http://schema-registry:8081")
 
-        // Data Contracts, started in 7.4
-        // Validation
-        settings.setProperty("rule.executors", "checkSensor")
-        settings.setProperty("rule.executors.checkSensor.class", "io.confluent.kafka.schemaregistry.rules.cel.CelExecutor")
-
-        // Action
-        settings.setProperty("rule.actions", "checkSensor")
-        settings.setProperty("rule.actions.checkSensor.class", "io.confluent.kafka.schemaregistry.rules.DlqAction")
-        settings.setProperty("rule.actions.checkSensor.param.topic", "dlq-topic")
-        settings.setProperty("rule.actions.checkSensor.param.bootstrap.servers", "localhost:9092")
-
         // Required since we manually create schemas
         settings.setProperty("use.latest.version", "true")
         settings.setProperty("auto.register.schemas","false")

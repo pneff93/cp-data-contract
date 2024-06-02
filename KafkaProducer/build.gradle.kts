@@ -2,7 +2,7 @@ import org.gradle.jvm.tasks.Jar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.31"
+    kotlin("jvm") version "2.0.0"
     id("com.github.davidmc24.gradle.plugin.avro") version "1.2.0"
     application
 }
@@ -27,26 +27,11 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:1.2.2")
     implementation("com.google.code.gson:gson:2.8.8")
 
-    implementation("io.confluent:kafka-avro-serializer:7.4.0")
-    implementation("io.confluent:monitoring-interceptors:7.4.0")
-    implementation("io.confluent:kafka-schema-rules:7.4.0")
+    implementation("io.confluent:kafka-avro-serializer:7.6.0")
+    implementation("io.confluent:kafka-schema-rules:7.6.0")
 }
 
-val fatJar = task("fatJar", type = Jar::class) {
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    baseName = "fatApp"
-    manifest {
-        attributes["Main-Class"] = application.mainClass
-    }
-    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-    with(tasks.jar.get() as CopySpec)
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "17"
 }
